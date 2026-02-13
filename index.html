@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Kahena 💗</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:"Segoe UI",Arial,sans-serif;
+    text-align:center;
+    background:linear-gradient(to right,#ff9a9e,#fecfef);
+    overflow-x:hidden;
+}
+
+/* INTRO */
+#intro{
+    position:fixed;
+    inset:0;
+    background:rgba(255,255,255,0.65);
+    backdrop-filter:blur(10px);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:10;
+}
+
+/* BUTTONS */
+button{
+    font-size:22px;
+    padding:14px 30px;
+    margin:16px;
+    border:none;
+    border-radius:14px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+#yes{background:hotpink;color:white;}
+#no{background:white;}
+
+.pulse{animation:pulse 2s infinite;}
+@keyframes pulse{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.08)}
+    100%{transform:scale(1)}
+}
+
+.fade{animation:fadeIn 1.2s forwards;}
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(20px)}
+    to{opacity:1;transform:none}
+}
+
+/* FLOWERS */
+.flower{
+    position:absolute;
+    animation:fall linear infinite;
+    font-size:22px;
+}
+@keyframes fall{
+    from{transform:translateY(-100px)}
+    to{transform:translateY(100vh)}
+}
+
+/* SLIDESHOW */
+#slideshow{
+    width:260px;
+    height:340px;
+    margin:30px auto;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+#slideshow img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+/* GALLERY */
+.gallery{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:18px;
+    margin:40px auto;
+    max-width:1100px;
+}
+
+.photo{
+    background:white;
+    padding:10px 10px 25px;
+    border-radius:12px;
+    width:170px;
+    box-shadow:0 15px 30px rgba(0,0,0,0.25);
+    transform:rotate(calc(-5deg + 10deg * var(--r)));
+    transition:0.4s;
+}
+.photo img{
+    width:100%;
+    height:210px;
+    object-fit:cover;
+    border-radius:8px;
+}
+.photo:hover{
+    transform:scale(1.08) rotate(0deg);
+}
+
+/* FINAL CARD */
+.card{
+    background:rgba(255,255,255,0.95);
+    padding:35px;
+    border-radius:20px;
+    max-width:600px;
+    margin:auto;
+    box-shadow:0 25px 50px rgba(0,0,0,0.25);
+}
+
+/* FIREWORK */
+.firework{
+    position:absolute;
+    font-size:32px;
+    animation:boom 1s forwards;
+}
+@keyframes boom{
+    from{transform:scale(0);opacity:1}
+    to{transform:scale(3);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+    <h2>Turn sound ON 🎧<br>This song reminds him of you 💗</h2>
+    <button onclick="start()">Start 💗</button>
+</div>
+
+<h1 id="title"></h1>
+<div id="countdown"></div>
+
+<button id="yes" class="pulse" onclick="yes()">Yes 🤗</button>
+<button id="no" onmouseover="moveNo()">No 🥲</button>
+<p id="msg"></p>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+    <source src="carino.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* START EXPERIENCE */
+function start(){
+    document.getElementById("intro").style.display="none";
+    document.getElementById("music").play();
+    typeEffect();
+}
+
+/* TYPE EFFECT */
+let text="💗 Kahena, Will You Be My Valentine? 💗";
+let i=0;
+function typeEffect(){
+    if(i<text.length){
+        document.getElementById("title").innerHTML+=text[i++];
+        setTimeout(typeEffect,60);
+    }
+}
+
+/* COUNTDOWN */
+let valentine=new Date("Feb 14, 2026").getTime();
+setInterval(()=>{
+    let days=Math.floor((valentine-Date.now())/86400000);
+    document.getElementById("countdown").innerText=
+        "Countdown to Valentine’s Day: "+days+" days 💗";
+},1000);
+
+/* NO BUTTON */
+let counter=0;
+let messages=[
+    "whaaaaa really??? 🥲",
+    "Think again, cause i got a lot planned for it mhehe 😋",
+    "bruhhh 😭",
+    "you dont like me ig  🥹",
+    "press YESSSSSSSSSSSS 😭"
+];
+function moveNo(){
+    let no=document.getElementById("no");
+    no.style.position="absolute";
+    no.style.left=Math.random()*(innerWidth-120)+"px";
+    no.style.top=Math.random()*(innerHeight-60)+"px";
+    document.getElementById("msg").innerText=
+        messages[counter++%messages.length];
+}
+
+/* FLOWERS */
+for(let i=0;i<35;i++){
+    let f=document.createElement("div");
+    f.className="flower";
+    f.innerHTML="🌸";
+    f.style.left=Math.random()*100+"vw";
+    f.style.animationDuration=(5+Math.random()*5)+"s";
+    document.body.appendChild(f);
+}
+
+/* YES CLICK */
+function yes(){
+    document.body.innerHTML=`
+    <div class="card fade">
+        <h1>YAAAAAAY 🥳🎉</h1>
+        <h2>Kahena said YES 💗</h2>
+        <p style="font-size:22px;">Officially the best day ever 🤗</p>
+        <p>This certifies Kahena as my Valentine 💌</p>
+        
+        <!-- SLIDESHOW -->
+        <div id="slideshow" class="fade">
+            <img id="slide" src="photos/img1.jpeg">
+        </div>
+
+        <!-- GALLERY -->
+        <div class="gallery fade" id="gallery"></div>
+    </div>
+    `;
+
+    // SLIDESHOW (20 images)
+    let s=1;
+    setInterval(()=>{
+        s=s%20+1;
+        document.getElementById("slide").src="photos/img"+s+".jpeg";
+    },2500);
+
+    // LOAD GALLERY
+    let gallery=document.getElementById("gallery");
+    for(let j=1;j<=20;j++){
+        let d=document.createElement("div");
+        d.className="photo";
+        d.style.setProperty("--r",Math.random());
+        d.innerHTML=`<img src="photos/img${j}.jpeg">`;
+        gallery.appendChild(d);
+    }
+
+    // FIREWORKS
+    for(let i=0;i<30;i++){
+        let f=document.createElement("div");
+        f.className="firework";
+        f.innerHTML="🎉";
+        f.style.left=Math.random()*100+"vw";
+        f.style.top=Math.random()*100+"vh";
+        document.body.appendChild(f);
+    }
+}
+</script>
+
+</body>
+</html>
